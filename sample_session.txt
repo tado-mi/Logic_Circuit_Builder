@@ -1,0 +1,51 @@
+welcome to logic circuit builder
+
+number of allowed variables:	 3
+supported operations:		 or, and, not, not, nand
+supported characters:		 a, d, n, o, r, t, x, y, z, (, )
+
+please, enter the expression:	 x or y and (z or not x) or (not y and x)
+would you like to provide value assignment? [y/n] y
+please follow this sample format exactly
+	x: F; y: T; z: F
+your input: x: T; y: F; z: F
+inputed expresion: x or y and (z or not x) or (not y and x);
+truth assignment: x: T; y: F; z: F
+value of the expression: T
+
+would you like to continue? [y/n] y
+
+please, enter the expression:	 x or (not y nand z) nor (y or not z)
+would you like to provide value assignment? [y/n] n
+inputed expresion: x or (not y nand z) nor (y or not z);
+truth assignment: x: F; y: F; z: F; 
+value of the expression: F
+
+truth assignment: x: T; y: F; z: F; 
+value of the expression: T
+
+truth assignment: x: F; y: T; z: F; 
+value of the expression: T
+
+truth assignment: x: T; y: T; z: F; 
+value of the expression: T
+
+truth assignment: x: F; y: F; z: T; 
+value of the expression: T
+
+truth assignment: x: T; y: F; z: T; 
+value of the expression: T
+
+truth assignment: x: F; y: T; z: T; 
+value of the expression: T
+
+truth assignment: x: T; y: T; z: T; 
+value of the expression: T
+
+
+----------------------------
+
+
+would you like to continue? [y/n] n
+terminated
+
