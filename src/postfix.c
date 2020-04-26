@@ -65,6 +65,8 @@ char* postfix(char* exp) {
 
 			}
 
+			// fix precedence
+
 			push(S, to_push);
 
 

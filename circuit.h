@@ -2,6 +2,7 @@
 #include <stdlib.h>
 
 #include "functions.h"
+#include "../data-struct/stack.h"
 
 typedef struct circuit *circuit;
 

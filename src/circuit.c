@@ -9,7 +9,7 @@ struct circuit{
 
 };
 
-circuit new_circuit(char c){
+circuit new_circuit(char c) {
 
 	circuit me = (circuit) malloc(sizeof(struct circuit));
 	(*me).value = c;
@@ -28,70 +28,10 @@ void print_circ(circuit c){
 
 }
 
-// circuit stack
-typedef struct circuit_stack *circuit_stack;
-struct circuit_stack{
-
-	circuit data;
-	circuit_stack next;
-
-};
-
-circuit_stack new_circ_stack(circuit c){
-
-	circuit_stack me = (circuit_stack) malloc(sizeof(struct circuit_stack));
-	(*me).data = c;
-	(*me).next = NULL;
-	return me;
-
-}
-
-circuit_stack root;
-
-void push_circ(circuit c){
-
-	circuit_stack to_push = new_circ_stack(c);
-
-	circuit_stack temp = root;
-	root = to_push;
-	(*root).next = temp;
-
-}
-
-circuit peek_circ(){
-
-	return (*root).data;
-
-}
-
-circuit pop_circ(){
-
-	circuit_stack temp = root;
-	root = (*root).next;
-	return (*temp).data;
-
-}
-
-void print_stack_circ(){
-
-	circuit_stack focus = root;
-
-	while(focus != NULL){
-
-		print_circ((*focus).data);
-		printf("\n");
-		focus = (*focus).next;
-
-	}
-
-	printf("___________\n");
-
-}
-
-// functions for circuit
-
 // generates an 'expression tree' from the postfix of the provided logic expression
 circuit build(char* post){
+
+	STACK root = new_STACK();
 
 	for (int i = 0; *(post + i) != '\0'; i++){
 
@@ -100,16 +40,16 @@ circuit build(char* post){
 
 		if (is_operation(c)){
 
-			(*focus).right = pop_circ();
-			if (c != '!') (*focus).left = pop_circ();
+			(*focus).right = pop(root);
+			if (c != '!') (*focus).left = pop(root);
 
 		}
 
-		push_circ(focus);
+		push(root, focus);
 
 	}
 
-	return pop_circ();
+	return pop(root);
 
 }
 
