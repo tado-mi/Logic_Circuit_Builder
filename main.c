@@ -1,12 +1,15 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
-#include "header.h"
+#include "functions.h"
+#include "postfix.h"
+#include "circuit.h"
 
 int evaluate(char* post, char* assign){
-	
+
 	printf("truth assignment: %s\n",assign);
-	
+
 	// sets up the switches according to the truth assignment
 	circuit circ = set_switch(build(post), create_switch(assign, num_of_input(post)));
 
@@ -15,17 +18,17 @@ int evaluate(char* post, char* assign){
 	printf("value of the expression: %c\n\n", c);
 
 	return val;
-	
+
 }
 
 char* count(int i, int length, char* var_names){
-    
+
     length = 6 * length + 1;
-    
+
     char* answer = malloc((length + 1) * sizeof(char));
-    
+
     if (i == 0) {
-        
+
         *answer = var_names[0];
         *(answer + 1) = ':';
         *(answer + 2) = ' ';
@@ -33,31 +36,31 @@ char* count(int i, int length, char* var_names){
         *(answer + 4) = ';';
         *(answer + 5) = ' ';
     }
-    
+
     int var_index = 0;
     int j = 0;
 
     // string juggling for obtaining a nice string of form "x: T; y: F; z: T"
     for (j; i > 0; j = j + 6){
-    
+
         char val = 'F';
-    
+
         if ((i % 2) == 1) val = 'T';
-        
+
         *(answer + j) = var_names[var_index];
         *(answer + j + 1) = ':';
         *(answer + j + 2) = ' ';
         *(answer + j + 3) = val;
         *(answer + j + 4) = ';';
         *(answer + j + 5) = ' ';
-        
+
         var_index = var_index + 1;
         i = i / 2;
-    
+
     }
-    
+
     for (j; j < length; j = j + 6){
-        
+
         *(answer + j) = var_names[var_index];
         *(answer + j + 1) = ':';
         *(answer + j + 2) = ' ';
@@ -66,17 +69,17 @@ char* count(int i, int length, char* var_names){
         *(answer + j + 5) = ' ';
         var_index = var_index + 1;
     }
-    
+
    *(answer + j) = '\0';
-   
+
    return answer;
-   
+
 }
 
 void run(char* exp, char* given_assignment){
-	
+
 	printf("inputed expresion: %s;\n", exp);
-	
+
 	char* post = postfix(exp);
 
 	if (given_assignment != "no_assignment") {
@@ -90,7 +93,7 @@ void run(char* exp, char* given_assignment){
 
 	int n	= num_of_input(post); // number of variables
 	int num = power(2, n); // number of possible truth assignments
-	
+
 	for (int i = 0; i < num; i++){
 
 		// count 'converts' i to binary and uses it to set truth value assignments to the variables
@@ -98,9 +101,9 @@ void run(char* exp, char* given_assignment){
 		char* assign = count(i, n - 1, "xyz");
 
         	evaluate(post, assign);
-    	
+
 	}
-	
+
 	printf("\n----------------------------\n\n\n");
 
 }
@@ -114,7 +117,7 @@ int main(){
 
 	printf("number of allowed variables:\t 3\n");
 	printf("supported operations:\t\t or, and, not, not, nand\n");
-	printf("supported characters:\t\t a, d, n, o, r, t, x, y, z, (, )\n");  
+	printf("supported characters:\t\t a, d, n, o, r, t, x, y, z, (, )\n");
 
 	printf("\n");
 
@@ -123,7 +126,7 @@ int main(){
 		printf("please, enter the expression:\t ");
 		fgets(temp, 100, stdin);
 
-		int   len = string_length(temp);
+		int   len = strlen(temp);
 		char* usr_input = malloc(len * sizeof(char));
 
 		for (int i = 0; *(temp + i) != '\n'; i++) {
@@ -144,8 +147,8 @@ int main(){
 
 			printf("your input: ");
 			fgets(temp, 100, stdin);
-			
-			int   len = string_length(temp);
+
+			int   len = strlen(temp);
 			char* usr_assgn = malloc(len * sizeof(char));
 
 			for (int i = 0; *(temp + i) != '\n'; i++) {
@@ -157,11 +160,11 @@ int main(){
 			*(usr_assgn + (len - 1)) = '\0';
 
 			run(usr_input, usr_assgn);
-		
+
 		} else {
 
 			run(usr_input, "no_assignment");
-		
+
 		}
 
 		printf("would you like to continue? [y/n] ");
@@ -172,9 +175,9 @@ int main(){
 		printf("\n");
 
 	}
-    
-	printf("terminated\n");	
+
+	printf("terminated\n");
 
 	return 0;
-	
+
 }
